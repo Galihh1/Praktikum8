@@ -1,14 +1,4 @@
-# Praktikum 8
-# Program Data Mahasiswa menggunakan Class
-Dengan ketentuan sebagai berikut
-- Method tambah() untuk menambah data
-- Method tampilkan() untuk menampilkan data
-- Method hapus(nama) untuk menghapus data berdasarkan nama
-- Method ubah(nama) untuk mengubah data berdasarkan nama
-
-# Membuat Method __init_
-Method __*init*__() berguna untuk melakukan inisialisasi pembuatan object dari class.
-```bash
+from tabulate import tabulate
 class UPB:
     def __init__(self):
         self.dataMhs = {
@@ -19,13 +9,8 @@ class UPB:
         'Nilai UTS':[],
         'Nilai UAS':[],
         'Nilai Akhir':[]
-        }
-```
-
-# Membuat Method tambah()
-Berfungsi sebagai metode menambahkan data
-```bash
-def tambah (self,no):
+         }
+    def tambah (self,no):
         print("Silahkan Input Data Anda ")
         nama = input("Masukan Nama Mahasiswa : ")
         nim = input("Masukan Nim Mahasiswa : ")
@@ -42,26 +27,14 @@ def tambah (self,no):
         self.dataMhs['Nilai UAS'].append(uas)
         self.dataMhs['Nilai Akhir'].append(nilaiAkhir)
         print("Succes")
-```
-**Programnya akan seperti ini**
-![image.png](ss/tmbh.png)
 
-# Membuat Method tampil()
-Berfungsi sebagai metode menampilkan data yang sudah diinput
-```bash
-def tampil(self):
+    def tampil(self):
         print('Tampilan Data Nilai Mahasiswa')
         print(tabulate(self.dataMhs,
                        headers=['No', 'Nama', 'NIM', 'Nilai Tugas', 'Nilai UTS', 'Nilai UAS', 'Nilai Akhir'],
                        tablefmt='fancy_grid'))
-```
-**Programnya akan seperti ini**
-![image.png](ss/tmpl.png)
 
-# Membuat Method hapus()
-Berfungsi sebagai metode menghapus data yang sudah diinputkan
-```bash
-def hapus(self, nama):
+    def hapus(self, nama):
         if nama in self.dataMhs["Nama"]:
             namaIndex = self.dataMhs['Nama'].index(nama)
             del self.dataMhs['No'][namaIndex]
@@ -74,33 +47,50 @@ def hapus(self, nama):
             print("Data Was Deleted")
         else:
             print("Data Was Not Found")
-```
-**Programnya akan seperti ini**
-![image.png](ss/hps.png)
 
-# Membuat Method ubah()
-```bash
-def hapus(self, nama):
-        if nama in self.dataMhs["Nama"]:
+    def ubah(self, nama):
+        if nama in self.dataMhs['Nama']:
             namaIndex = self.dataMhs['Nama'].index(nama)
-            del self.dataMhs['No'][namaIndex]
-            del self.dataMhs['Nama'][namaIndex]
-            del self.dataMhs['NIM'][namaIndex]
-            del self.dataMhs['Nilai Tugas'][namaIndex]
-            del self.dataMhs['Nilai UTS'][namaIndex]
-            del self.dataMhs['Nilai UAS'][namaIndex]
-            del self.dataMhs['Nilai Akhir'][namaIndex]
-            print("Data Was Deleted")
-        else:
-            print("Data Was Not Found")
-```
-**Programnya akan seperti ini**
-![image.png](ss/ubh.png)
-**Data setelah kita ubah Nim-nya**
-![image.png](ss/hslubh.png)
+            print("Pilih data yang ingin diubah : ")
+            while True:
+                print("1. NIM")
+                print("2. Nama")
+                print("3. Nilai Tugas")
+                print("4. Nilai UTS")
+                print("5. Nilai UAS")
+                print("0. Simpan Perubahan dan Keluar")
+                editApa = int(input(" Masukan Pilihan : "))
+                print("")
+                if editApa == 1:
+                    newNim = int(input("Masukan Nim : "))
+                    self.dataMhs['NIM'][namaIndex] = newNim
+                elif editApa == 2:
+                    newNama = input("Masukan Nama : ")
+                    self.dataMhs['Nama'][namaIndex] = newNama
+                elif editApa == 3:
+                    newTugas = int(input("Masukan Nilai Tugas : "))
+                    nilai_akhir = (newTugas * 30 / 100) + (self.dataMhs['UTS'][namaIndex] * 35 / 100) + (
+                                self.dataMhs['UAS'][namaIndex] * 35 / 100)
+                    self.dataMhs['Tugas'][namaIndex] = newTugas
+                    self.dataMhs['Nilai Akhir'][namaIndex] = nilai_akhir
+                elif editApa == 4:
+                    newUTS = int(input("Masukan Nilai UTS"))
+                    nilai_akhir = (self.dataMhs['Tugas'][namaIndex] * 30 / 100) + (newUTS * 35 / 100) + (
+                                self.dataMhs['UAS'][namaIndex] * 35 / 100)
+                    self.dataMhs['UTS'][namaIndex] = newUTS
+                    self.dataMhs['Nilai Akhir'][namaIndex] = nilai_akhir
+                elif editApa == 5:
+                    newUAS = int(input("Masukn Nilai UAS : "))
+                    nilai_akhir = (self.dataMhs['Tugas'][namaIndex] * 30 / 100) + (
+                                self.dataMhs['UTS'][namaIndex] * 35 / 100) + (newUAS * 35 / 100)
+                    self.dataMhs['UAS'][namaIndex] = newUAS
+                    self.dataMhs['Nilai Akhir'][namaIndex] = nilai_akhir
+                elif editApa == 0:
+                    print("Perubahan data berhasil di simpan")
+                    break
+                else:
+                    print("Data tidak ditemukan")
 
-# Membuar Instance class untuk perulangan serta pemanggilan Method kembali
-```bash
 no = 0
 instanceUPB = UPB()
 loop = True
@@ -148,7 +138,4 @@ while loop:
         print("| Terima Kasih Telah Menggunakan Program Ini |")
         print("|============================================|")
 loop = False
-```
 
-# def judul()*
-**Di dalam Instance class ada method def judul(), fungsinya ketika kita memanggil menu atau looping dari menu sebelumnya maka akan keluar judul yang berisikan menu-menu diatas**
